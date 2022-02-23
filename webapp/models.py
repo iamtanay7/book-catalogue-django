@@ -10,9 +10,9 @@ class Author(models.Model):
     gender = models.CharField(max_length=6, choices=GenderType.choices)
     country = models.CharField(max_length=15)
 
-class Books(models.Model):
+class Book(models.Model):
     critic_validators = [MinValueValidator(limit_value=0), MaxValueValidator(limit_value=10)]
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     number_of_pages = models.IntegerField()
     date_of_publishing = models.DateField()

@@ -9,6 +9,11 @@ class Author(models.Model):
     age = models.IntegerField()
     gender = models.CharField(max_length=6, choices=GenderType.choices)
     country = models.CharField(max_length=15)
+    image_url = models.CharField(max_length=500)
+
+    def __repr__(self):
+        return self.name
+
 
 class Book(models.Model):
     critic_validators = [MinValueValidator(limit_value=0), MaxValueValidator(limit_value=10)]

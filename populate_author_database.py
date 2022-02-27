@@ -14,6 +14,14 @@ cursor.execute("SELECT version();")
 # Fetch result
 record = cursor.fetchone()
 print("You are connected to - ", record, "\n")
-sql = "COPY (SELECT * FROM webapp_book) TO STDOUT WITH CSV DELIMITER ','"
-with open("Books.csv", "w") as file:
-    cursor.copy_expert(sql, file)
+cursor.execute("SET datestyle = dmy;")
+f = open(r'Authors.csv', 'r')
+cursor.copy_from(f, "webapp_author", sep=',')
+f.close()
+sql3 = '''select * from webapp_author;'''
+cursor.execute(sql3)
+for i in cursor.fetchall():
+    print(i)
+  
+conn.commit()
+conn.close()

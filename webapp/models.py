@@ -22,3 +22,8 @@ class Book(models.Model):
     number_of_pages = models.IntegerField()
     date_of_publishing = models.DateField()
     average_critics_rating = models.IntegerField(validators=critic_validators)
+    author_name = models.CharField(max_length=20, default="Author name")
+    image_url = models.CharField(max_length=500)
+
+    def __repr__(self):
+        return self.name

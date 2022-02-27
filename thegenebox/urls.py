@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from webapp.views import AuthorViewSet, BookViewSet, export_authors_to_csv
+from webapp.views import AddNewBook, AuthorViewSet, BookViewSet, export_authors_to_csv, BookView, AllAuthorsView, AddNewBook, export_books_to_csv
 
 router = routers.DefaultRouter()
 router.register(r'authors', AuthorViewSet)
@@ -25,5 +25,9 @@ router.register(r'books', BookViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('exportauthorsascsv/', export_authors_to_csv)
+    path('exportauthorsascsv/', export_authors_to_csv),
+    path('exportbooksascsv/', export_books_to_csv),
+    path('booksapi/', BookView.as_view()),
+    path('allauthors/', AllAuthorsView.as_view()),
+    path('addnewbook/', AddNewBook.as_view())
 ]

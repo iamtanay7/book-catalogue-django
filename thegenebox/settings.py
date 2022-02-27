@@ -81,8 +81,12 @@ WSGI_APPLICATION = 'thegenebox.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dfrpns4kts0d8i',
+        'HOST': 'ec2-3-227-195-74.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'prebmyellstkww',
+        'PASSWORD': '43f06e36b54de6197fa7096dfbdfbe14065ce1474ee371355167d64c177a7ad2'
     }
 }
 

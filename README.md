@@ -12,20 +12,20 @@
 
 
 ## Technologies used:
-Frontend: React, HTML, CSS, JavaScript
-Backend: Django
-Version control: git, GitHub
-Database: PostgreSQL
-Deployment services: Heroku, GitHub Pages
+Frontend: React, HTML, CSS, JavaScript  
+Backend: Django  
+Version control: git, GitHub  
+Database: PostgreSQL  
+Deployment services: Heroku, GitHub Pages  
 
-Frontend deployed on GitHub pages. Link: https://iamtanay7.github.io/book-catalogue-react/
-Backend is deployed on Heroku. Link: https://tanay-books.herokuapp.com/
+Frontend deployed on GitHub pages. Link: https://iamtanay7.github.io/book-catalogue-react/  
+Backend is deployed on Heroku. Link: https://tanay-books.herokuapp.com/  
 
 ## Source code:
-Frontend: https://github.com/iamtanay7/book-catalogue-react
-Backend: https://github.com/iamtanay7/book-catalogue-django
+Frontend: https://github.com/iamtanay7/book-catalogue-react  
+Backend: https://github.com/iamtanay7/book-catalogue-django  
 
-Python version: 3.9.9
+Python version: 3.9.9  
 
 ## Python scripts: (Edit your database settings in the script)
 1. To populate Author database: populate_author_database.py
@@ -34,7 +34,7 @@ Python version: 3.9.9
 3. To load data from Book database into Books.csv: load_books_into_csv.py (Loads data into Books.csv)
 
 ## How to run above scripts:
-> venv\Scripts\activate
+> venv\Scripts\activate  
 > python script_name.py
 
 

@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ["tanay-books.herokuapp.com", '127.0.0.1']
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
-    #   'https://iamtanay7.github.io/book-catalogue-react/',
+    'https://iamtanay7.github.io',
 ]
 # Application definition
 

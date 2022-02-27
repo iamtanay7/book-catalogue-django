@@ -39,8 +39,12 @@ def export_authors_to_csv(request):
         headers={'Content-Disposition': 'attachment; filename="Authors.csv"'},
     )
     writer = csv.writer(response)
-    writer.writerows(cursor.execute("SELECT * FROM webapp_author").fetchall())
+    sql = "COPY (SELECT * FROM webapp_book) TO STDOUT WITH CSV DELIMITER ','"
+    with open("Authors.csv", "w") as file:
+        cursor.copy_expert(sql, file)
+    writer.writerows(file.read())
     return response
+    
 
 
 def export_books_to_csv(request):

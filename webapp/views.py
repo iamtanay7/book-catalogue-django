@@ -1,4 +1,5 @@
 import csv
+import io
 from multiprocessing import context
 from urllib import response
 from django.db import connection
@@ -24,36 +25,36 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 def export_authors_to_csv(request):
-    # authors = Author.objects.all()
-    # response = HttpResponse("text/csv")
-    # response['Content-Disposition'] = 'attachment; filename=Authors.csv'
-    # writer = csv.writer(response)
-    # writer.writerow(["id", "name", "age", "gender", "country", "image_url"])
-    # auths = authors.values_list("id", "name", "age", "gender", "country", "image_url")
-    # for obj in auths:
-    #     writer.writerow(obj)
-    # return response
-    cursor = connection.cursor()
-    response = HttpResponse(
-        content_type='text/csv',
-        headers={'Content-Disposition': 'attachment; filename="Authors.csv"'},
-    )
+    authors = Author.objects.all()
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=Authors.csv'
     writer = csv.writer(response)
-    sql = "COPY (SELECT * FROM webapp_book) TO STDOUT WITH CSV DELIMITER ','"
-    with open("Authors.csv", "w") as file:
-        cursor.copy_expert(sql, file)
-    writer.writerows(file.read())
+    #writer.writerow(["id", "name", "age", "gender", "country", "image_url"])
+    auths = authors.values_list("id", "name", "age", "gender", "country", "image_url")
+    for obj in auths:
+        writer.writerow(obj)
     return response
+    # cursor = connection.cursor()
+    # response = HttpResponse(
+    #     content_type='text/csv',
+    #     headers={'Content-Disposition': 'attachment; filename="Authors.csv"'},
+    # )
+    # writer = csv.writer(response)
+    # sql = "COPY (SELECT * FROM webapp_book) TO STDOUT WITH CSV DELIMITER ','"
+    # text_stream = io.StringIO()
+    # cursor.copy_expert(sql, text_stream)
+    # writer.writerows(text_stream.getvalue())
+    # return response
     
 
 
 def export_books_to_csv(request):
     books = Book.objects.all()
-    response = HttpResponse("text/csv")
+    response = HttpResponse(content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename=Books.csv'
     writer = csv.writer(response)
-    writer.writerow(["id", "name", "Publish date", "No of pages", "Critics rating","Author", "image_url"])
-    new_books = books.values_list("id", "name", "date_of_publishing", "number_of_pages", "average_critics_rating", "author_name", "image_url")
+    # writer.writerow(["id", "name", "Publish date", "No of pages", "Critics rating","Author", "image_url"])
+    new_books = books.values_list("id", "name", "average_critics_rating","number_of_pages", "date_of_publishing", "author_name", "image_url")
     for obj in new_books:
         writer.writerow(obj)
     return response
@@ -80,6 +81,7 @@ class AddNewBook(APIView):
         data = JSONParser().parse(request)
         print(data)
         book = Book()
+        book.id = Book.objects.latest("id").id+1
         book.author = Author.objects.get(pk=data.get("author_id") )
         book.number_of_pages = data.get("number_of_pages")
         book.date_of_publishing = data.get("date_of_publishing")
@@ -93,5 +95,23 @@ class AddNewBook(APIView):
             print(e)
             return JsonResponse({"error":"Invalid input"})
         return JsonResponse({"message":"Book Added successfully!"})
+
+class AddNewAuthor(APIView):
+    def post(self, request):
+        data = JSONParser().parse(request)
+        print(data)
+        author = Author()
+        author.id = Author.objects.latest("id").id+1
+        author.name = data.get("name")
+        author.age = data.get("age")
+        author.gender = data.get("gender")
+        author.country = data.get("country")
+        author.image_url = data.get("image_url")
+        try:
+            author.save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({"error":"Invalid input"})
+        return JsonResponse({"message":"Author Added successfully!"})
 
 

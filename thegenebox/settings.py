@@ -25,11 +25,11 @@ SECRET_KEY = 'django-insecure-i+3ovjg7uij(kwh-^$g%!2w)5q@p1=fvb9aqd-x@0(oi)(n^=z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["tanay-books.herokuapp.com", 'http://localhost:8000']
+ALLOWED_HOSTS = ["tanay-books.herokuapp.com", '127.0.0.1']
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
-      'https://iamtanay7.github.io/book-catalogue-react/',
+    #   'https://iamtanay7.github.io/book-catalogue-react/',
 ]
 # Application definition
 

@@ -1,7 +1,7 @@
 import csv
 from multiprocessing import context
 from urllib import response
-
+from django.db import connection
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Author, Book
@@ -24,15 +24,24 @@ class BookViewSet(viewsets.ModelViewSet):
 
 
 def export_authors_to_csv(request):
-    authors = Author.objects.all()
-    response = HttpResponse("text/csv")
-    response['Content-Disposition'] = 'attachment; filename=Authors.csv'
+    # authors = Author.objects.all()
+    # response = HttpResponse("text/csv")
+    # response['Content-Disposition'] = 'attachment; filename=Authors.csv'
+    # writer = csv.writer(response)
+    # writer.writerow(["id", "name", "age", "gender", "country", "image_url"])
+    # auths = authors.values_list("id", "name", "age", "gender", "country", "image_url")
+    # for obj in auths:
+    #     writer.writerow(obj)
+    # return response
+    cursor = connection.cursor()
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="Authors.csv"'},
+    )
     writer = csv.writer(response)
-    writer.writerow(["id", "name", "age", "gender", "country", "image_url"])
-    auths = authors.values_list("id", "name", "age", "gender", "country", "image_url")
-    for obj in auths:
-        writer.writerow(obj)
+    writer.writerows(cursor.execute("SELECT * FROM webapp_author").fetchall())
     return response
+
 
 def export_books_to_csv(request):
     books = Book.objects.all()
